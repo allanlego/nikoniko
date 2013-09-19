@@ -102,7 +102,7 @@ Ext.define('CustomApp', {
                     value: this._encodeKey(date, user)
                 }
             ],
-            appID: this.getAppId(),
+            workspace: this.getContext().getWorkspaceRef(),
             scope:this,
             success:function(preferences) { console.log("Got: ", preferences)} 
         });
@@ -117,7 +117,7 @@ Ext.define('CustomApp', {
         var mysettings = {};
         mysettings[key] = value;
         Rally.data.PreferenceManager.update({
-            appID: this.getAppId(),
+            workspace: this.getContext().getWorkspaceRef(),
             scope: this,
             settings:mysettings,
             success: function(updatedRecords, noUpdatedRecords) { console.log("Mood stored for " + user + " on " + date + ": " + mood); console.log(updatedRecords); console.log(noUpdatedRecords); }
