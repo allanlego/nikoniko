@@ -1,6 +1,8 @@
 Ext.define('CustomApp', {
     extend: 'Rally.app.App',
     componentCls: 'app',
+ 
+    // Remove this override in production (in-rally use)
     getAppId : function() { return "14154311144"; },
     getCurrentUser : function() {
         return this.getContext().getUser().ObjectID;
