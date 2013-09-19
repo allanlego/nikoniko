@@ -48,26 +48,39 @@ Ext.define('CustomApp', {
     },
     
     _doButtonLayout : function() {
+        var today = Ext.Date.format(new Date(), "Y-m-d");
+
+
         var button1 = Ext.create('Rally.ui.Button', {
            text: "Good",
            listeners: {
-               click: function(button, event) { console.log(':-)');}
+               click: function(button, event) { 
+                   this.saveMood(today, "test", 3);
+               },
+               scope: this
            },
+           
         });
         var button2 = Ext.create('Rally.ui.Button', {
            text: "Neutral",
            listeners: {
-               click: function(button, event) { console.log(':-|');}
+               click: function(button, event) { 
+                   this.saveMood(today, "test", 2);
+               },
+               scope: this
            },
         });
         var button3 = Ext.create('Rally.ui.Button', {
            text: "Bad",
            listeners: {
-               click: function(button, event) { console.log(':-(');}
+               click: function(button, event) { 
+                   this.saveMood(today, "test", 1);
+               },
+               scope: this
            },
+           
         });
-        
-        var today = Ext.Date.format(Ext.Date.now(), "Y-m-d");
+    
         
         var labelToday = Ext.create('Ext.Component', {
             html: today
