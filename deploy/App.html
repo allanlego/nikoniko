@@ -7,7 +7,7 @@
 
     <script type="text/javascript">
         Rally.onReady(function () {
-                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",launch:function(){this.saveMood("2013-09-19","test",1)},getPreferencesByUserAndDate:function(userAndDate,callback,scope){Rally.data.PreferenceManager.load({additionalFilters:[{property:"Name",operator:"contains",value:userAndDate}],appID:this.getAppId(),scope:scope,success:callback})},saveMood:function(date,user,mood){var key=date+";"+user,value=mood;Rally.data.PreferenceManager.update({settings:{key:value},success:function(){console.log("Mood stored for "+user+" on "+date+": "+mood)}})}});
+                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",_encodeKey:function(date,user){return date+";"+user},launch:function(){var today="2013-09-19",user="test2",mood=1;this.saveMood(today,user,mood),this.getPreferencesByUserAndDate(today,user)},getPreferencesByUserAndDate:function(date,user){console.log("Getting mood....."),Rally.data.PreferenceManager.load({additionalFilters:[{property:"Name",operator:"contains",value:this._encodeKey(date,user)}],appID:this.getAppId(),scope:this,success:function(preferences){console.log("Got: ",preferences)}})},saveMood:function(date,user,mood){console.log("Saving mood.....");var key=this._encodeKey(date,user),value=mood;Rally.data.PreferenceManager.update({appID:this.getAppId(),scope:this,settings:{key:value},success:function(updatedRecords,noUpdatedRecords){console.log("Mood stored for "+user+" on "+date+": "+mood),console.log(updatedRecords),console.log(noUpdatedRecords)}})}});
 
             Rally.launchApp('CustomApp', {
                 name:"nikoniko",

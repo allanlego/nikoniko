@@ -1,13 +1,21 @@
 Ext.define('CustomApp', {
     extend: 'Rally.app.App',
     componentCls: 'app',
+    getAppId : function() { return "14154311144"; },
+
+    _encodeKey : function(date, user) {
+        return date + "/" + user; 
+    },
 
     launch: function() {
         //Write app code here
-        this.saveMood("2013-09-19", "test", 1);
-        this.getPreferencesByUserAndDate("2013-09-19", "test");
+        var today = "2013-09-19";
+        var user = "t424est2";
+        var mood = 2;
+        
+        this.saveMood(today, user, mood);
+        this.getPreferencesByUserAndDate(today, user);
     },
-    
     
     getPreferencesByUserAndDate:function(date, user){
         console.log("Getting mood.....");
@@ -16,10 +24,10 @@ Ext.define('CustomApp', {
                 {
                     property: 'Name',
                     operator: 'contains',
-                    value: date + ";" + user
+                    value: this._encodeKey(date, user)
                 }
             ],
-            appID: "14154311144",
+            appID: this.getAppId(),
             scope:this,
             success:function(preferences) { console.log("Got: ", preferences)} 
         });
@@ -28,15 +36,15 @@ Ext.define('CustomApp', {
     //adds one saves the preferences
     saveMood:function(date, user, mood){
         console.log("Saving mood.....");
-        var key = date + ";" + user;
+        var key = this._encodeKey(date, user);
         var value = mood;
         
+        var mysettings = {};
+        mysettings[key] = value;
         Rally.data.PreferenceManager.update({
-            appID: "14154311144",
+            appID: this.getAppId(),
             scope: this,
-            settings:{
-                key: value
-            },
+            settings:mysettings,
             success: function(updatedRecords, noUpdatedRecords) { console.log("Mood stored for " + user + " on " + date + ": " + mood); console.log(updatedRecords); console.log(noUpdatedRecords); }
         });
     },
