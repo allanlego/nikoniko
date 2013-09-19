@@ -2,6 +2,9 @@ Ext.define('CustomApp', {
     extend: 'Rally.app.App',
     componentCls: 'app',
     getAppId : function() { return "14154311144"; },
+    getCurrentUser : function() {
+        return this.getContext().getUser().ObjectID;
+    },
 
     _encodeKey : function(date, user) {
         return date + "/" + user; 
@@ -37,11 +40,6 @@ Ext.define('CustomApp', {
 
     launch: function() {
         //Write app code here
-    //    var today = "2013-09-19";
-    //    var user = "t424est2";
-    //    var mood = 2;
-        
-    //    this.saveMood(today, user, mood);
     //    this.getPreferencesByDateAndUser(today, user);
         this._doButtonLayout();
     
@@ -50,12 +48,11 @@ Ext.define('CustomApp', {
     _doButtonLayout : function() {
         var today = Ext.Date.format(new Date(), "Y-m-d");
 
-
         var button1 = Ext.create('Rally.ui.Button', {
            text: "Good",
            listeners: {
                click: function(button, event) { 
-                   this.saveMood(today, "test", 3);
+                   this.saveMood(today, this.getCurrentUser(), 3);
                },
                scope: this
            },
@@ -65,7 +62,7 @@ Ext.define('CustomApp', {
            text: "Neutral",
            listeners: {
                click: function(button, event) { 
-                   this.saveMood(today, "test", 2);
+                   this.saveMood(today, this.getCurrentUser(), 2);
                },
                scope: this
            },
@@ -74,7 +71,7 @@ Ext.define('CustomApp', {
            text: "Bad",
            listeners: {
                click: function(button, event) { 
-                   this.saveMood(today, "test", 1);
+                   this.saveMood(today, this.getCurrentUser(), 1);
                },
                scope: this
            },
