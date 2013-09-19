@@ -7,7 +7,7 @@
 
     <script type="text/javascript">
         Rally.onReady(function () {
-                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",launch:function(){}});
+                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",launch:function(){this.saveMood("2013-09-19","test",1)},getPreferencesByUserAndDate:function(userAndDate,callback,scope){Rally.data.PreferenceManager.load({additionalFilters:[{property:"Name",operator:"contains",value:userAndDate}],appID:this.getAppId(),scope:scope,success:callback})},saveMood:function(date,user,mood){var key=date+";"+user,value=mood;Rally.data.PreferenceManager.update({settings:{key:value},success:function(){console.log("Mood stored for "+user+" on "+date+": "+mood)}})}});
 
             Rally.launchApp('CustomApp', {
                 name:"nikoniko",

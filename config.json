@@ -1,7 +1,7 @@
 {
    "name": "nikoniko",
    "className": "CustomApp",
-   "server": "https://rally1.rallydev.com",
+   "server": "https://sandbox.rallydev.com",
    "sdk": "2.0rc1",
    "javascript": [
       "App.js"

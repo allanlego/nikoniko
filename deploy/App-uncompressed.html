@@ -13,7 +13,40 @@
 
     launch: function() {
         //Write app code here
-    }
+        
+        this.saveMood("2013-09-19", "test", 1);
+    },
+    
+    
+    getPreferencesByUserAndDate:function(userAndDate,callback,scope){
+        Rally.data.PreferenceManager.load({
+            additionalFilters :[
+                {
+                    property: 'Name',
+                    operator: 'contains',
+                    value: userAndDate
+                }
+            ],
+            appID: this.getAppId(),
+            scope:scope,
+            success:callback
+        });
+    },
+
+    //adds one saves the preferences
+    saveMood:function(date, user, mood){
+        var key = date + ";" + user;
+        var value = mood;
+        
+        Rally.data.PreferenceManager.update({
+            settings:{
+                key: value
+            },
+            success: function() { console.log("Mood stored for " + user + " on " + date + ": " + mood); }
+        });
+    },
+
+    
 });
 
 
